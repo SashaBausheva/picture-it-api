@@ -1,20 +1,20 @@
 const mongoose = require('mongoose')
 
-const reviewSchema = new mongoose.Schema({
-  artistUsername: {
+const imageSchema = new mongoose.Schema({
+  imageUrl: {
     type: String,
     required: true
   },
-  profileUrl: {
+  altDescription: {
     type: String,
     required: true
   },
-  artistSpecialty: {
+  userName: {
     type: String,
     required: true
   },
-  rating: {
-    type: Number,
+  comments: {
+    type: String,
     required: true
   },
   owner: {
@@ -26,4 +26,4 @@ const reviewSchema = new mongoose.Schema({
   timestamps: true
 })
 
-module.exports = mongoose.model('Review', reviewSchema)
+module.exports = mongoose.model('ImageEntry', imageSchema)
