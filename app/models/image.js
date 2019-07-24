@@ -5,11 +5,19 @@ const imageSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  fullUrl: {
+    type: String,
+    require: true
+  },
   altDescription: {
     type: String,
     required: true
   },
   userName: {
+    type: String,
+    required: true
+  },
+  userUrl: {
     type: String,
     required: true
   },
