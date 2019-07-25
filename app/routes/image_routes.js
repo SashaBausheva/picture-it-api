@@ -4,7 +4,7 @@ const express = require('express')
 const passport = require('passport')
 
 // pull in Mongoose model for examples
-const Review = require('../models/review')
+const ImageEntry = require('../models/image')
 
 // this is a collection of methods that help us detect situations when we need
 // to throw a custom error
@@ -29,42 +29,42 @@ const router = express.Router()
 
 // INDEX
 // GET /examples
-router.get('/reviews', requireToken, (req, res, next) => {
-  Review.find()
-    .then(reviews => {
+router.get('/images', requireToken, (req, res, next) => {
+  ImageEntry.find()
+    .then(images => {
       // `examples` will be an array of Mongoose documents
       // we want to convert each one to a POJO, so we use `.map` to
       // apply `.toObject` to each one
-      return reviews.map(example => example.toObject())
+      return images.map(image => image.toObject())
     })
     // respond with status 200 and JSON of the examples
-    .then(reviews => res.status(200).json({ reviews: reviews }))
+    .then(images => res.status(200).json({ images: images }))
     // if an error occurs, pass it to the handler
     .catch(next)
 })
 
 // SHOW
 // GET /examples/5a7db6c74d55bc51bdf39793
-router.get('/reviews/:id', requireToken, (req, res, next) => {
+router.get('/images/:id', requireToken, (req, res, next) => {
   // req.params.id will be set based on the `:id` in the route
-  Review.findById(req.params.id)
+  ImageEntry.findById(req.params.id)
     .then(handle404)
     // if `findById` is succesful, respond with 200 and "example" JSON
-    .then(review => res.status(200).json({ review: review.toObject() }))
+    .then(image => res.status(200).json({ image: image.toObject() }))
     // if an error occurs, pass it to the handler
     .catch(next)
 })
 
 // CREATE
 // POST /examples
-router.post('/reviews', requireToken, (req, res, next) => {
+router.post('/images', requireToken, (req, res, next) => {
   // set owner of new example to be current user
-  req.body.review.owner = req.user.id
+  req.body.image.owner = req.user.id
 
-  Review.create(req.body.review)
+  ImageEntry.create(req.body.image)
     // respond to succesful `create` with status 201 and JSON of new "example"
-    .then(review => {
-      res.status(201).json({ review: review.toObject() })
+    .then(image => {
+      res.status(201).json({ image: image.toObject() })
     })
     // if an error occurs, pass it off to our error handler
     // the error handler needs the error message and the `res` object so that it
@@ -74,20 +74,20 @@ router.post('/reviews', requireToken, (req, res, next) => {
 
 // UPDATE
 // PATCH /examples/5a7db6c74d55bc51bdf39793
-router.patch('/reviews/:id', requireToken, removeBlanks, (req, res, next) => {
+router.patch('/images/:id', requireToken, removeBlanks, (req, res, next) => {
   // if the client attempts to change the `owner` property by including a new
   // owner, prevent that by deleting that key/value pair
-  delete req.body.review.owner
+  delete req.body.image.owner
 
-  Review.findById(req.params.id)
+  ImageEntry.findById(req.params.id)
     .then(handle404)
-    .then(review => {
+    .then(image => {
       // pass the `req` object and the Mongoose record to `requireOwnership`
       // it will throw an error if the current user isn't the owner
-      requireOwnership(req, review)
+      requireOwnership(req, image)
 
       // pass the result of Mongoose's `.update` to the next `.then`
-      return review.update(req.body.review)
+      return image.update(req.body.image)
     })
     // if that succeeded, return 204 and no JSON
     .then(() => res.sendStatus(204))
@@ -97,14 +97,14 @@ router.patch('/reviews/:id', requireToken, removeBlanks, (req, res, next) => {
 
 // DESTROY
 // DELETE /examples/5a7db6c74d55bc51bdf39793
-router.delete('/reviews/:id', requireToken, (req, res, next) => {
-  Review.findById(req.params.id)
+router.delete('/images/:id', requireToken, (req, res, next) => {
+  ImageEntry.findById(req.params.id)
     .then(handle404)
-    .then(review => {
+    .then(image => {
       // throw an error if current user doesn't own `example`
-      requireOwnership(req, review)
+      requireOwnership(req, image)
       // delete the example ONLY IF the above didn't throw
-      review.remove()
+      image.remove()
     })
     // send back 204 and no content if the deletion succeeded
     .then(() => res.sendStatus(204))

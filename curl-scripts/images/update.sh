@@ -1,7 +1,7 @@
 #!/bin/bash
 
 API="http://localhost:4741"
-URL_PATH="/reviews"
+URL_PATH="/images"
 
 curl "${API}${URL_PATH}/${ID}" \
   --include \
@@ -9,11 +9,11 @@ curl "${API}${URL_PATH}/${ID}" \
   --header "Content-Type: application/json" \
 --header "Authorization: Bearer ${TOKEN}" \
 --data '{
-  "review": {
-    "artistUsername": "'"${USERNAME}"'",
-    "profileUrl": "'"${PROFILE}"'",
-    "artistSpecialty": "'"${SPECIALTY}"'",
-    "rating": "'"${RATING}"'",
+  "image": {
+    "imageUrl": "'"${IMGURL}"'",
+    "altDescription": "'"${DESC}"'",
+    "userName": "'"${USERNAME}"'",
+    "comments": "'"${COMMENTS}"'",
   }
 }'
 
