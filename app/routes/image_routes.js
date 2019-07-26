@@ -30,12 +30,23 @@ const router = express.Router()
 // INDEX
 // GET /examples
 router.get('/images', requireToken, (req, res, next) => {
+  console.log('req user', req.user)
   ImageEntry.find()
     .then(images => {
       // `examples` will be an array of Mongoose documents
       // we want to convert each one to a POJO, so we use `.map` to
       // apply `.toObject` to each one
       return images.map(image => image.toObject())
+    })
+    .then(images => {
+      images.map(image => {
+        if (JSON.stringify(req.user._id) === JSON.stringify(image.owner)) {
+          image.editable = true
+        } else {
+          image.editable = false
+        }
+      })
+      return images
     })
     // respond with status 200 and JSON of the examples
     .then(images => res.status(200).json({ images: images }))
@@ -64,7 +75,12 @@ router.post('/images', requireToken, (req, res, next) => {
   ImageEntry.create(req.body.image)
     // respond to succesful `create` with status 201 and JSON of new "example"
     .then(image => {
-      res.status(201).json({ image: image.toObject() })
+      const imageObject = image.toObject()
+      imageObject.editable = true
+      return imageObject
+    })
+    .then(imageObject => {
+      res.status(201).json({ image: imageObject })
     })
     // if an error occurs, pass it off to our error handler
     // the error handler needs the error message and the `res` object so that it
