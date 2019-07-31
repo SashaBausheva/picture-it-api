@@ -1,3 +1,5 @@
+import axios from 'axios'
+require('dotenv').config()
 // Express docs: http://expressjs.com/en/api.html
 const express = require('express')
 // Passport docs: http://www.passportjs.org/docs/
@@ -126,6 +128,15 @@ router.delete('/images/:id', requireToken, (req, res, next) => {
     .then(() => res.sendStatus(204))
     // if an error occurs, pass it to the handler
     .catch(next)
+})
+
+// GET /examples
+router.get('/random-images', (req, res, next) => {
+  console.log('process env is ', process.env.CLIENT_ID)
+  return axios({
+    url: `https://api.unsplash.com/photos/random?count=5&client_id=${process.env.CLIENT_ID}`,
+    method: 'GET'
+  })
 })
 
 module.exports = router
