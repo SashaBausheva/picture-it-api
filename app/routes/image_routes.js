@@ -1,3 +1,5 @@
+const axios = require('axios')
+require('dotenv').config()
 // Express docs: http://expressjs.com/en/api.html
 const express = require('express')
 // Passport docs: http://www.passportjs.org/docs/
@@ -30,7 +32,6 @@ const router = express.Router()
 // INDEX
 // GET /examples
 router.get('/images', requireToken, (req, res, next) => {
-  console.log('req user', req.user)
   ImageEntry.find()
     .then(images => {
       // `examples` will be an array of Mongoose documents
@@ -126,6 +127,52 @@ router.delete('/images/:id', requireToken, (req, res, next) => {
     .then(() => res.sendStatus(204))
     // if an error occurs, pass it to the handler
     .catch(next)
+})
+
+// GET /examples
+router.get('/random-images', (req, res, next) => {
+  axios({
+    url: `https://api.unsplash.com/photos/random?count=5&client_id=${process.env.CLIENT_ID}`,
+    method: 'GET'
+  })
+    .then(imageObject => {
+      res.status(201).send({ images: imageObject.data })
+    })
+    .catch(err => {
+      res.send({ err })
+    })
+})
+
+// GET /examples
+router.get('/random-image', (req, res, next) => {
+  console.log('router get is running')
+  axios({
+    url: `https://api.unsplash.com/photos/random?client_id=${process.env.CLIENT_ID}`,
+    method: 'GET'
+  })
+    .then(imageObject => {
+      console.log(imageObject)
+      res.status(201).send({ image: imageObject.data })
+    })
+    .catch(err => {
+      console.log('error in router')
+      console.log(err)
+      res.send({ err })
+    })
+})
+
+// GET /examples
+router.get('/find-images', (req, res, next) => {
+  axios({
+    url: `https://api.unsplash.com/search/photos?page=1&query=${req.query.query}&client_id=${process.env.CLIENT_ID}`,
+    method: 'GET'
+  })
+    .then(imageObject => {
+      res.status(201).send({ images: imageObject.data })
+    })
+    .catch(err => {
+      res.send({ err })
+    })
 })
 
 module.exports = router
