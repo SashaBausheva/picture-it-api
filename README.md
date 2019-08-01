@@ -1,8 +1,8 @@
 # Picture It - Full-Stack Project by Sasha Bausheva
 
 ## Links
-- Link to deployed site: https://sashabausheva.github.io/art-reviews-client
-- Link to the front-end repository: https://github.com/SashaBausheva/art-reviews-client
+- Link to deployed site: https://sashabausheva.github.io/picture-it-client
+- Link to the front-end repository: https://github.com/SashaBausheva/picture-it-client
 - Link to the deployed API: https://morning-reaches-38888.herokuapp.com
 
 ## Application Description
