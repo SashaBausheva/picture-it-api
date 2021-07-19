@@ -28,15 +28,20 @@
   },
   "devDependencies": {
     "base64url": "^3.0.0",
+    "braces": "^2.3.1",
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
+    "deep-extend": "^0.5.1",
     "diff": "^3.5.0",
     "eslint": "^4.8.0",
     "glob-parent": "^5.1.2",
+    "minimist": "^1.2.3",
     "mocha": "^4.0.1",
     "mquery": "^3.2.3",
     "nodemon": "^1.12.1",
-    "standard": "^10.0.3"
+    "randomatic": "^3.0.0",
+    "standard": "^10.0.3",
+    "superagent": "^3.7.0"
   },
   "engines": {
     "node": "10.15.0",
