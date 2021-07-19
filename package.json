@@ -27,10 +27,14 @@
     "passport-http-bearer": "^1.0.1"
   },
   "devDependencies": {
+    "base64url": "^3.0.0",
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
+    "diff": "^3.5.0",
     "eslint": "^4.8.0",
+    "glob-parent": "^5.1.2",
     "mocha": "^4.0.1",
+    "mquery": "^3.2.3",
     "nodemon": "^1.12.1",
     "standard": "^10.0.3"
   },
